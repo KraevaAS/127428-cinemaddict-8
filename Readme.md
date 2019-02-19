@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Анна Краева](https://up.htmlacademy.ru/ecmascript/8/user/127428).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Малинов](https://htmlacademy.ru/profile/id40204).
 
 ---
 
