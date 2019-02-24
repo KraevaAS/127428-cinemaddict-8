@@ -1,6 +1,6 @@
 import {createCardHTML} from './cards.js';
 
-export const createTaskHTML = (allItems, extraItemsTop, extraItemsCommented) => {
+export const createFilmsHTML = (allItems, extraItemsTop, extraItemsCommented) => {
   return `
 <section class="films-list">
   <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>

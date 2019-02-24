@@ -1,5 +1,5 @@
 import {createFilterHTML} from './filters.js';
-import {createTaskHTML} from './films';
+import {createFilmsHTML} from './films';
 
 const filtersArray = [
   {
@@ -29,17 +29,10 @@ const filtersArray = [
     count: 8,
     isActive: false,
     isAdditional: false
-  },
-  {
-    name: `Stats`,
-    href: `status`,
-    count: ``,
-    isActive: false,
-    isAdditional: true
   }
 ];
 
-const addTasks = (count) => {
+const addFilms = (count) => {
   const cardArray = [];
   for (let i = 0; i < count; i++) {
     cardArray.push({
@@ -56,11 +49,42 @@ const addTasks = (count) => {
   return cardArray;
 };
 
-const filtersContainer = document.querySelector(`.main-navigation`);
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 const filmsContainer = document.querySelector(`.films`);
 
-filtersArray.forEach((filter) => {
-  filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.href, filter.name, filter.isActive, filter.isAdditional, filter.count));
-});
+const removeExistingFilmsFromHTML = () => {
+  let child = filmsContainer.firstChild;
 
-filmsContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(addTasks(7), addTasks(2), addTasks(2)));
+  if (!filmsContainer) {
+    return;
+  }
+
+  while (child) {
+    filmsContainer.removeChild(child);
+    child = filmsContainer.firstChild;
+  }
+};
+
+const initFilterButtons = (filters) => {
+  const filtersContainer = document.querySelector(`.main-navigation`);
+
+  filters.forEach((filter) => {
+    filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.href, filter.name, filter.isActive, filter.count));
+  });
+  filtersContainer.insertAdjacentHTML(`beforeEnd`, `<a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>`);
+
+  const filterBtns = document.querySelectorAll(`.main-navigation__item`);
+
+  filterBtns.forEach((button) => {
+
+    button.addEventListener(`click`, (event) => {
+      removeExistingFilmsFromHTML();
+      filmsContainer.insertAdjacentHTML(`beforeEnd`, createFilmsHTML(addFilms(getRandomInt(1, 20)), addFilms(getRandomInt(1, 20)), addFilms(getRandomInt(1, 20))));
+      event.preventDefault();
+    });
+  });
+};
+
+initFilterButtons(filtersArray);
+
+filmsContainer.insertAdjacentHTML(`beforeEnd`, createFilmsHTML(addFilms(7), addFilms(2), addFilms(2)));
