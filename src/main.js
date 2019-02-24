@@ -50,6 +50,7 @@ const addFilms = (count) => {
 };
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
 const filmsContainer = document.querySelector(`.films`);
 
 const removeExistingFilmsFromHTML = () => {
@@ -73,9 +74,9 @@ const initFilterButtons = (filters) => {
   });
   filtersContainer.insertAdjacentHTML(`beforeEnd`, `<a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>`);
 
-  const filterBtns = document.querySelectorAll(`.main-navigation__item`);
+  const filterButtons = document.querySelectorAll(`.main-navigation__item`);
 
-  filterBtns.forEach((button) => {
+  filterButtons.forEach((button) => {
 
     button.addEventListener(`click`, (event) => {
       removeExistingFilmsFromHTML();
