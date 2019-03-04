@@ -1,6 +1,37 @@
 import {createFilterHTML} from './filters.js';
 import {createFilmsHTML} from './films';
 
+
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+const generateSentences = (sentences, min, max) => {
+  const count = getRandomInt(min, max);
+  const newSentencesArray = [];
+  const copySentencesArray = sentences.slice();
+  for (let i = 0; i < count; i++) {
+    const startIndex = getRandomInt(1, copySentencesArray.length - 1);
+    const newTag = copySentencesArray.splice(startIndex, 1);
+    newSentencesArray.push(newTag[0]);
+  }
+  return newSentencesArray;
+};
+
+const auxiliaryArray = (count) => {
+  const dopArr = [];
+  for (let i = 0; i < count; i++) {
+    dopArr.push(i + 1);
+  }
+  return dopArr;
+};
+
+const getPictures = () => [
+  `accused`,
+  `blackmail`,
+  `blue-blazes`,
+  `fuga-da-new-york`,
+  `moonrise`,
+  `three-friends`][Math.floor(Math.random() * 6)];
+
 const filtersArray = [
   {
     name: `All movies`,
@@ -33,23 +64,50 @@ const filtersArray = [
 ];
 
 const addFilms = (count) => {
-  const cardArray = [];
-  for (let i = 0; i < count; i++) {
-    cardArray.push({
-      title: `Incredibles 2`,
-      rating: 9.8,
-      year: 2018,
+  return auxiliaryArray(count).map(() => {
+    return {
+      title: [
+        `Incredibles 2`,
+        `The Shawshank Redemption`,
+        `The Green Mile`,
+        `Forrest Gump `,
+        `Schindler's List`,
+        `The Matrix`,
+        `Inception`,
+        `The Lion King `,
+        `Fight Club`,
+        `Lock, Stock and Two Smoking Barrels`,
+        `Pulp Fiction`,
+        `The Prestige`,
+        `A Beautiful Mind`,
+        `Gladiator`,
+        `Interstellar`][Math.floor(Math.random() * 15)],
+      rating: getRandomInt(3, 9) * 0.9,
+      year: getRandomInt(1990, 2019),
       duration: `1h 3m`,
-      genre: `Comedy`,
-      imgURL: `./images/posters/fuga-da-new-york.jpg`,
-      description: `A priests Romania and confront a malevolent force in the form of a demonic nun.`,
-      commentsNumber: 13
-    });
-  }
-  return cardArray;
+      genre: [
+        `Comedy`,
+        `Horror`,
+        `Documentary`,
+        `Action`,
+        `Animated film`,
+        `Science fiction`][Math.floor(Math.random() * 6)],
+      imgURL: `images/posters/${getPictures()}.jpg`,
+      description: generateSentences([
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+        `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+        `Fusce tristique felis at fermentum pharetra.`,
+        `Aliquam id orci ut lectus varius viverra.`,
+        `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+        `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+        `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+        `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+        `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus.`,
+        `In rutrum ac purus sit amet tempus.`], 1, 3),
+      commentsNumber: getRandomInt(2, 100)
+    };
+  });
 };
-
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 const filmsContainer = document.querySelector(`.films`);
 
