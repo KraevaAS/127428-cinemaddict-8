@@ -19,7 +19,7 @@ export const createCardHTML = (item, isExtra = false) => {
     <span class="film-card__genre">${item.genre}</span>
   </p>
   <img src="${item.imgURL}" alt="" class="film-card__poster">
-  ${isExtra ? `` : `<p class="film-card__description">${item.description}</p>`}
+  ${isExtra ? `` : `<p class="film-card__description">${item.description.join(`. `)}</p>`}
   <button class="film-card__comments">${item.commentsNumber} comments</button>
    ${isExtra ? `` : getCardControlButtons()}
 </article>
