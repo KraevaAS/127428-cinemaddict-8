@@ -16,12 +16,8 @@ const generateSentences = (sentences, min, max) => {
   return newSentencesArray;
 };
 
-const auxiliaryArray = (count) => {
-  const dopArr = [];
-  for (let i = 0; i < count; i++) {
-    dopArr.push(i + 1);
-  }
-  return dopArr;
+const getAuxiliaryArray = (count) => {
+  return [...Array(count)].map((x, i) => i + 1);
 };
 
 const getPictures = () => [
@@ -64,7 +60,7 @@ const filtersArray = [
 ];
 
 const addFilms = (count) => {
-  return auxiliaryArray(count).map(() => {
+  return getAuxiliaryArray(count).map(() => {
     return {
       title: [
         `Incredibles 2`,
@@ -93,17 +89,19 @@ const addFilms = (count) => {
         `Animated film`,
         `Science fiction`][Math.floor(Math.random() * 6)],
       imgURL: `images/posters/${getPictures()}.jpg`,
-      description: generateSentences([
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-        `Cras aliquet varius magna, non porta ligula feugiat eget.`,
-        `Fusce tristique felis at fermentum pharetra.`,
-        `Aliquam id orci ut lectus varius viverra.`,
-        `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
-        `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
-        `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
-        `Sed sed nisi sed augue convallis suscipit in sed felis.`,
-        `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus.`,
-        `In rutrum ac purus sit amet tempus.`], 1, 3),
+      description: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Cras aliquet varius magna, non porta ligula feugiat eget.
+        Fusce tristique felis at fermentum pharetra.
+        Aliquam id orci ut lectus varius viverra.
+        Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
+        Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
+        Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
+        Sed sed nisi sed augue convallis suscipit in sed felis.
+        Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.
+        `.trim().split(`.`).sort(function compareRandom() {
+        return Math.random() - 0.5;
+      }).slice(0, getRandomInt(1, 3)),
       commentsNumber: getRandomInt(2, 100)
     };
   });
