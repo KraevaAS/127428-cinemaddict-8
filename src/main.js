@@ -4,18 +4,6 @@ import {createFilmsHTML} from './films';
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
-const generateSentences = (sentences, min, max) => {
-  const count = getRandomInt(min, max);
-  const newSentencesArray = [];
-  const copySentencesArray = sentences.slice();
-  for (let i = 0; i < count; i++) {
-    const startIndex = getRandomInt(1, copySentencesArray.length - 1);
-    const newTag = copySentencesArray.splice(startIndex, 1);
-    newSentencesArray.push(newTag[0]);
-  }
-  return newSentencesArray;
-};
-
 const getAuxiliaryArray = (count) => {
   return [...Array(count)].map((x, i) => i + 1);
 };
