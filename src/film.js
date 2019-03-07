@@ -17,6 +17,7 @@ export class Film {
     this._description = film.description;
     this._commentsNumber = film.commentsNumber;
     this._element = null;
+    this._onClick = null;
   }
 
   get template() {
@@ -53,12 +54,34 @@ export class Film {
     return this._element;
   }
 
+  _onPopupButtonClick() {
+    if (typeof this._onClick === `function`) {
+      this._onClick();
+    }
+  }
+
+  set onClick(fn) {
+    this._onClick = fn;
+  }
+
+  bind() {
+    this._element.querySelector(`.film-card`)
+      .addEventListener(`click`, this._onPopupButtonClick.bind(this));
+  }
+
+  unbind() {
+    this._element.querySelector(`.film-card`)
+      .removeEventListener(`click`, this._onPopupButtonClick.bind(this));
+  }
+
   render() {
     this._element = createElement(this.template);
+    this.bind();
     return this._element;
   }
 
   unrender() {
+    this.unbind();
     this._element = null;
   }
 }
@@ -176,6 +199,7 @@ export class FilmPopup {
     this._description = film.description;
     this._commentsNumber = film.commentsNumber;
     this._element = null;
+    this._onClose = null;
   }
 
   get template() {
@@ -327,12 +351,34 @@ export class FilmPopup {
     return this._element;
   }
 
+  _onCloseButtonClick() {
+    if (typeof this._onClose === `function`) {
+      this._onClose();
+    }
+  }
+
+  set onClose(fn) {
+    this._onClose = fn;
+  }
+
+  bind() {
+    this._element.querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, this._onCloseButtonClick.bind(this));
+  }
+
+  unbind() {
+    this._element.querySelector(`.film-details__close-btn`)
+      .removeEventListener(`click`, this._onCloseButtonClick.bind(this));
+  }
+
   render() {
     this._element = createElement(this.template);
+    this.bind();
     return this._element;
   }
 
   unrender() {
+    this.unbind();
     this._element = null;
   }
 }

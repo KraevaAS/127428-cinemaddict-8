@@ -2,7 +2,6 @@ import {createFilterHTML} from './filters.js';
 import {filtersArray} from './data.js';
 
 import {film} from './data.js';
-
 import {Film} from './film.js';
 import {FilmTopRated} from './film.js';
 import {FilmMostCommented} from './film.js';
@@ -17,7 +16,7 @@ filtersContainer.insertAdjacentHTML(`beforeEnd`, `<a href="#stats" class="main-n
 
 
 const filmsContainer = document.querySelector(`.films`);
-const filmPopupContainer = document.querySelector(`.main`);
+const filmPopupContainer = document.querySelector(`body`);
 
 const filmComponent = new Film(film);
 const filmTopRatedComponent = new FilmTopRated(film);
@@ -28,4 +27,11 @@ filmsContainer.appendChild(filmComponent.render());
 filmsContainer.appendChild(filmTopRatedComponent.render());
 filmsContainer.appendChild(filmMostCommentedComponent.render());
 
-filmPopupContainer.appendChild(filmPopupComponent.render());
+filmComponent.onClick = () => {
+  filmPopupComponent.render();
+  filmPopupContainer.appendChild(filmPopupComponent.element);
+};
+
+filmPopupComponent.onClose = () => {
+  filmPopupContainer.removeChild(filmPopupComponent.element);
+};
