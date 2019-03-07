@@ -1,5 +1,11 @@
 import {film} from './data.js';
 
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
+
 export class Film {
   constructor() {
     this._title = film.title;
@@ -10,6 +16,7 @@ export class Film {
     this._imgURL = film.imgURL;
     this._description = film.description;
     this._commentsNumber = film.commentsNumber;
+    this._element = null;
   }
 
   get template() {
@@ -41,6 +48,15 @@ export class Film {
 </section>
 `.trim();
   }
+
+  get element() {
+    return this._element;
+  }
+
+  render() {
+    this._element = createElement(this.template);
+    return this._element;
+  }
 }
 
 
@@ -53,6 +69,7 @@ export class FilmTopRated {
     this._genre = film.genre;
     this._imgURL = film.imgURL;
     this._commentsNumber = film.commentsNumber;
+    this._element = null;
   }
 
   get template() {
@@ -76,6 +93,15 @@ export class FilmTopRated {
 </section>
 `.trim();
   }
+
+  get element() {
+    return this._element;
+  }
+
+  render() {
+    this._element = createElement(this.template);
+    return this._element;
+  }
 }
 
 export class FilmMostCommented {
@@ -87,6 +113,7 @@ export class FilmMostCommented {
     this._genre = film.genre;
     this._imgURL = film.imgURL;
     this._commentsNumber = film.commentsNumber;
+    this._element = null;
   }
 
   get template() {
@@ -109,5 +136,14 @@ export class FilmMostCommented {
   <button class="films-list__show-more">Show more</button>
 </section>
 `.trim();
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  render() {
+    this._element = createElement(this.template);
+    return this._element;
   }
 }
