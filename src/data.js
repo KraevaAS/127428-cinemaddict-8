@@ -49,7 +49,7 @@ export const film = {
     `Animation`,
     `Action`,
     `Adventure`
-  ].join(` `),
+  ],
   imgURL: `images/posters/blackmail.jpg`,
   description: `
   The Incredibles hero family takes on a new mission, which involves a change in family roles: Bob Parr (Mr Incredible) must manage the house while his wife Helen (Elastigirl) goes out to save the world.

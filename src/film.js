@@ -30,7 +30,7 @@ export class Film {
       <p class="film-card__info">
         <span class="film-card__year">${this._year}</span>
         <span class="film-card__duration">${this._duration}</span>
-        <span class="film-card__genre">${this._genres}</span>
+        <span class="film-card__genre">${this._genres.join(` `)}</span>
       </p>
       <img src="${this._imgURL}" alt="" class="film-card__poster">
       <p class="film-card__description">${this._description}</p>
@@ -87,13 +87,12 @@ export class FilmTopRated {
       <p class="film-card__info">
         <span class="film-card__year">${this._year}</span>
         <span class="film-card__duration">${this._duration}</span>
-        <span class="film-card__genre">${this._genres}</span>
+        <span class="film-card__genre">${this._genres.join(` `)}</span>
       </p>
       <img src="${this._imgURL}" alt="" class="film-card__poster">
       <button class="film-card__comments">${this._commentsNumber} comments</button>
     </article>
   </div>
-  <button class="films-list__show-more">Show more</button>
 </section>
 `.trim();
   }
@@ -135,13 +134,12 @@ export class FilmMostCommented {
       <p class="film-card__info">
         <span class="film-card__year">${this._year}</span>
         <span class="film-card__duration">${this._duration}</span>
-        <span class="film-card__genre">${this._genres}</span>
+        <span class="film-card__genre">${this._genres.join(` `)}</span>
       </p>
       <img src="${this._imgURL}" alt="" class="film-card__poster">
       <button class="film-card__comments">${this._commentsNumber} comments</button>
     </article>
   </div>
-  <button class="films-list__show-more">Show more</button>
 </section>
 `.trim();
   }
@@ -173,7 +171,6 @@ export class FilmPopup {
     this._releaseDate = film.releaseDate;
     this._runTime = film.runTime;
     this._country = film.country;
-    this._duration = film.duration;
     this._genres = film.genres;
     this._imgURL = film.imgURL;
     this._description = film.description;
@@ -324,5 +321,18 @@ export class FilmPopup {
     </form>
   </section>
 `.trim();
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  render() {
+    this._element = createElement(this.template);
+    return this._element;
+  }
+
+  unrender() {
+    this._element = null;
   }
 }
