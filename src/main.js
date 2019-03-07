@@ -1,135 +1,37 @@
 import {createFilterHTML} from './filters.js';
-import {createFilmsHTML} from './films';
+import {filtersArray} from './data.js';
 
+import {film} from './data.js';
+import {Film} from './film.js';
+import {FilmTopRated} from './film.js';
+import {FilmMostCommented} from './film.js';
 
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+import {FilmPopup} from './film.js';
 
-const getAuxiliaryArray = (count) => {
-  return [...Array(count)].map((x, i) => i + 1);
-};
+const filtersContainer = document.querySelector(`.main-navigation`);
+filtersArray.forEach((filter) => {
+  filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.href, filter.name, filter.isActive, filter.count));
+});
+filtersContainer.insertAdjacentHTML(`beforeEnd`, `<a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>`);
 
-const getPictures = () => [
-  `accused`,
-  `blackmail`,
-  `blue-blazes`,
-  `fuga-da-new-york`,
-  `moonrise`,
-  `three-friends`][Math.floor(Math.random() * 6)];
-
-const filtersArray = [
-  {
-    name: `All movies`,
-    href: `all`,
-    count: ``,
-    isActive: true,
-    isAdditional: false
-  },
-  {
-    name: `Watchlist`,
-    href: `watchlist`,
-    count: 13,
-    isActive: false,
-    isAdditional: false
-  },
-  {
-    name: `History`,
-    href: `history`,
-    count: 4,
-    isActive: false,
-    isAdditional: false
-  },
-  {
-    name: `Favorites`,
-    href: `favorites`,
-    count: 8,
-    isActive: false,
-    isAdditional: false
-  }
-];
-
-const addFilms = (count) => {
-  return getAuxiliaryArray(count).map(() => {
-    return {
-      title: [
-        `Incredibles 2`,
-        `The Shawshank Redemption`,
-        `The Green Mile`,
-        `Forrest Gump `,
-        `Schindler's List`,
-        `The Matrix`,
-        `Inception`,
-        `The Lion King `,
-        `Fight Club`,
-        `Lock, Stock and Two Smoking Barrels`,
-        `Pulp Fiction`,
-        `The Prestige`,
-        `A Beautiful Mind`,
-        `Gladiator`,
-        `Interstellar`][Math.floor(Math.random() * 15)],
-      rating: getRandomInt(3, 9) * 0.9,
-      year: getRandomInt(1990, 2019),
-      duration: `1h 3m`,
-      genre: [
-        `Comedy`,
-        `Horror`,
-        `Documentary`,
-        `Action`,
-        `Animated film`,
-        `Science fiction`][Math.floor(Math.random() * 6)],
-      imgURL: `images/posters/${getPictures()}.jpg`,
-      description: `
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Cras aliquet varius magna, non porta ligula feugiat eget.
-        Fusce tristique felis at fermentum pharetra.
-        Aliquam id orci ut lectus varius viverra.
-        Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
-        Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
-        Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
-        Sed sed nisi sed augue convallis suscipit in sed felis.
-        Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.
-        `.trim().split(`.`).sort(function compareRandom() {
-        return Math.random() - 0.5;
-      }).slice(0, getRandomInt(1, 3)),
-      commentsNumber: getRandomInt(2, 100)
-    };
-  });
-};
 
 const filmsContainer = document.querySelector(`.films`);
+const filmPopupContainer = document.querySelector(`body`);
 
-const removeExistingFilmsFromHTML = () => {
-  let child = filmsContainer.firstChild;
+const filmComponent = new Film(film);
+const filmTopRatedComponent = new FilmTopRated(film);
+const filmMostCommentedComponent = new FilmMostCommented(film);
+const filmPopupComponent = new FilmPopup(film);
 
-  if (!filmsContainer) {
-    return;
-  }
+filmsContainer.appendChild(filmComponent.render());
+filmsContainer.appendChild(filmTopRatedComponent.render());
+filmsContainer.appendChild(filmMostCommentedComponent.render());
 
-  while (child) {
-    filmsContainer.removeChild(child);
-    child = filmsContainer.firstChild;
-  }
+filmComponent.onClick = () => {
+  filmPopupComponent.render();
+  filmPopupContainer.appendChild(filmPopupComponent.element);
 };
 
-const initFilterButtons = (filters) => {
-  const filtersContainer = document.querySelector(`.main-navigation`);
-
-  filters.forEach((filter) => {
-    filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.href, filter.name, filter.isActive, filter.count));
-  });
-  filtersContainer.insertAdjacentHTML(`beforeEnd`, `<a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>`);
-
-  const filterButtons = document.querySelectorAll(`.main-navigation__item`);
-
-  filterButtons.forEach((button) => {
-
-    button.addEventListener(`click`, (event) => {
-      removeExistingFilmsFromHTML();
-      filmsContainer.insertAdjacentHTML(`beforeEnd`, createFilmsHTML(addFilms(getRandomInt(1, 20)), addFilms(getRandomInt(1, 20)), addFilms(getRandomInt(1, 20))));
-      event.preventDefault();
-    });
-  });
+filmPopupComponent.onClose = () => {
+  filmPopupContainer.removeChild(filmPopupComponent.element);
 };
-
-initFilterButtons(filtersArray);
-
-filmsContainer.insertAdjacentHTML(`beforeEnd`, createFilmsHTML(addFilms(7), addFilms(2), addFilms(2)));
