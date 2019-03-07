@@ -57,6 +57,10 @@ export class Film {
     this._element = createElement(this.template);
     return this._element;
   }
+
+  unrender() {
+    this._element = null;
+  }
 }
 
 
@@ -102,6 +106,10 @@ export class FilmTopRated {
     this._element = createElement(this.template);
     return this._element;
   }
+
+  unrender() {
+    this._element = null;
+  }
 }
 
 export class FilmMostCommented {
@@ -145,5 +153,9 @@ export class FilmMostCommented {
   render() {
     this._element = createElement(this.template);
     return this._element;
+  }
+
+  unrender() {
+    this._element = null;
   }
 }
