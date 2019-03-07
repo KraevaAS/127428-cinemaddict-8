@@ -6,6 +6,8 @@ import {Film} from './film.js';
 import {FilmTopRated} from './film.js';
 import {FilmMostCommented} from './film.js';
 
+import {FilmPopup} from './film.js';
+
 const filtersContainer = document.querySelector(`.main-navigation`);
 filtersArray.forEach((filter) => {
   filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.href, filter.name, filter.isActive, filter.count));
