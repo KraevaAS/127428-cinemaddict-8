@@ -1,10 +1,5 @@
 import {film} from './data.js';
-
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
+import {createElement} from './create-element.js';
 
 class Component {
   constructor() {
