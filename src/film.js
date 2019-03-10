@@ -1,22 +1,52 @@
 import {film} from './data.js';
+import {createElement} from './create-element.js';
 
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
-
-export class Film {
+class Component {
   constructor() {
+    if (new.target === Component) {
+      throw new Error(`Can't instantiate BaseComponent, only concrete one.`);
+    }
+
     this._title = film.title;
     this._rating = film.rating;
+    this._imgURL = film.imgURL;
+    this._genres = film.genres;
+    this._commentsNumber = film.commentsNumber;
+
+    this._element = null;
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  get template() {
+    throw new Error(`You have to define template.`);
+  }
+
+  bind() {}
+
+  unbind() {}
+
+  render() {
+    this._element = createElement(this.template);
+    this.bind();
+    return this._element;
+  }
+
+  unrender() {
+    this.unbind();
+    this._element.remove();
+    this._element = null;
+  }
+}
+
+export class Film extends Component {
+  constructor() {
+    super();
     this._year = film.year;
     this._duration = film.duration;
-    this._genres = film.genres;
-    this._imgURL = film.imgURL;
     this._description = film.description;
-    this._commentsNumber = film.commentsNumber;
-    this._element = null;
     this._onClick = null;
   }
 
@@ -50,10 +80,6 @@ export class Film {
 `.trim();
   }
 
-  get element() {
-    return this._element;
-  }
-
   _onPopupButtonClick() {
     if (typeof this._onClick === `function`) {
       this._onClick();
@@ -73,30 +99,14 @@ export class Film {
     this._element.querySelector(`.film-card`)
       .removeEventListener(`click`, this._onPopupButtonClick.bind(this));
   }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
-  }
 }
 
 
-export class FilmTopRated {
+export class FilmTopRated extends Component {
   constructor() {
-    this._title = film.title;
-    this._rating = film.rating;
+    super();
     this._year = film.year;
     this._duration = film.duration;
-    this._genres = film.genres;
-    this._imgURL = film.imgURL;
-    this._commentsNumber = film.commentsNumber;
-    this._element = null;
   }
 
   get template() {
@@ -119,31 +129,13 @@ export class FilmTopRated {
 </section>
 `.trim();
   }
-
-  get element() {
-    return this._element;
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    return this._element;
-  }
-
-  unrender() {
-    this._element = null;
-  }
 }
 
-export class FilmMostCommented {
+export class FilmMostCommented extends Component {
   constructor() {
-    this._title = film.title;
-    this._rating = film.rating;
+    super();
     this._year = film.year;
     this._duration = film.duration;
-    this._genres = film.genres;
-    this._imgURL = film.imgURL;
-    this._commentsNumber = film.commentsNumber;
-    this._element = null;
   }
 
   get template() {
@@ -166,26 +158,12 @@ export class FilmMostCommented {
 </section>
 `.trim();
   }
-
-  get element() {
-    return this._element;
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    return this._element;
-  }
-
-  unrender() {
-    this._element = null;
-  }
 }
 
-export class FilmPopup {
+export class FilmPopup extends Component {
   constructor() {
-    this._title = film.title;
+    super();
     this._titleOriginal = film.titleOriginal;
-    this._rating = film.rating;
     this._userRate = film.userRate;
     this._age = film.age;
     this._director = film.director;
@@ -194,11 +172,7 @@ export class FilmPopup {
     this._releaseDate = film.releaseDate;
     this._runTime = film.runTime;
     this._country = film.country;
-    this._genres = film.genres;
-    this._imgURL = film.imgURL;
     this._description = film.description;
-    this._commentsNumber = film.commentsNumber;
-    this._element = null;
     this._onClose = null;
   }
 
@@ -347,10 +321,6 @@ export class FilmPopup {
 `.trim();
   }
 
-  get element() {
-    return this._element;
-  }
-
   _onCloseButtonClick() {
     if (typeof this._onClose === `function`) {
       this._onClose();
@@ -369,16 +339,5 @@ export class FilmPopup {
   unbind() {
     this._element.querySelector(`.film-details__close-btn`)
       .removeEventListener(`click`, this._onCloseButtonClick.bind(this));
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
   }
 }
